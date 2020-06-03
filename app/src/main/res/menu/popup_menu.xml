@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_all"
+        android:title="@string/action_all"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_Confirmed"
+        android:title="@string/action_Confirmed"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_Unconfirmed"
+        android:title="@string/action_Unconfirmed"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_Received"
+        android:title="@string/action_Received"
+        app:showAsAction="never" />
+</menu>
