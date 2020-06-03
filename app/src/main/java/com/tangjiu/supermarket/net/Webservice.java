@@ -3,15 +3,18 @@ package com.tangjiu.supermarket.net;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * @ProjectName: TjSuperMarket
@@ -48,7 +51,6 @@ public class Webservice {
             connection.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
             connection.setRequestProperty("SOAPAction", "http://tempuri.org/" + soap);
             connection.connect();
-            // setBytesToOutputStream(connection.getOutputStream(), soap.getBytes());
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 byte[] b = getBytesFromInputStream(connection.getInputStream());
                 String back = new String(b);
@@ -73,10 +75,23 @@ public class Webservice {
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
-            connection.setRequestProperty("SOAPAction", "http://tempuri.org/" + soap);
-            connection.connect();
-            setBytesToOutputStream(connection.getOutputStream(), username, pwd);
+            //设置请求属性
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
+            connection.setRequestProperty("Charset", "UTF-8");
+            connection.setRequestProperty("accept", "application/json");
+            StringBuffer params = new StringBuffer();
+            // 表单参数与get形式一样
+            params.append("userno").append("=").append(username).append("&")
+                    .append("pwd").append("=").append(pwd);
+            byte[] bypes = params.toString().getBytes();
+            connection.getOutputStream().write(bypes);
+//            // 转换为字节数组  
+//            connection.connect();
+//            OutputStream out = new DataOutputStream(connection.getOutputStream());
+//            // 写入请求的字符串  params
+//            out.flush();
+//            out.close();
 
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -114,15 +129,20 @@ public class Webservice {
     /**
      * 向输入流发送数据
      *
-     * @param out
+     * @param
      * @param
      * @throws IOException
      */
-    private static void setBytesToOutputStream(OutputStream out, String userno, String pwd) throws IOException {
+    private static JSONObject getOutputStream(String userno, String pwd) throws IOException {
+        JSONObject jsonParam = new JSONObject();
+        try {
+            jsonParam.put("userno", userno);
+            jsonParam.put("pwd", pwd);
 
-        String params = "userno=" + userno + "&pwd=" + pwd;
-        out.write(params.getBytes());
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonParam;
 
     }
 }
