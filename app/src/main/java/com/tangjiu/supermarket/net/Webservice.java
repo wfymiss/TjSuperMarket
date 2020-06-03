@@ -1,17 +1,21 @@
 package com.tangjiu.supermarket.net;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * @ProjectName: TjSuperMarket
@@ -27,6 +31,7 @@ import java.net.URL;
  */
 public class Webservice {
     private static Webservice webservice;
+
 
     public static Webservice getInstance(Context content) {
 
@@ -67,18 +72,21 @@ public class Webservice {
 
     public void login(String soap, String pwd, String username, SoapCallback<String> soapCallback) {
         HttpURLConnection connection = null;
+        String params = "userno=" + username + "&pwd=" + pwd;
         try {
             URL url = new URL("http://218.26.102.234:48612/WebService1.asmx/" + soap);
             connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("SOAPAction", "http://tempuri.org/" + soap);
+            connection.setRequestProperty("Content-Length", Integer.toString(params.getBytes(Charset.forName("UTF-8")).length));
             connection.connect();
-            setBytesToOutputStream(connection.getOutputStream(), username, pwd);
-
-
+            // 设置请求的参数
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            writer.write(params);
+            writer.close();
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 byte[] b = getBytesFromInputStream(connection.getInputStream());
                 String back = new String(b);
@@ -111,18 +119,36 @@ public class Webservice {
         return bytes;
     }
 
-    /**
-     * 向输入流发送数据
-     *
-     * @param out
-     * @param
-     * @throws IOException
-     */
-    private static void setBytesToOutputStream(OutputStream out, String userno, String pwd) throws IOException {
-
-        String params = "userno=" + userno + "&pwd=" + pwd;
-        out.write(params.getBytes());
-
-
+    public void GetStoreOrders(String soap, String storeno, SoapCallback<String> soapCallback) {
+        HttpURLConnection connection = null;
+        String params = "storeno=" + storeno;
+        try {
+            URL url = new URL("http://218.26.102.234:48612/WebService1.asmx/" + soap);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("SOAPAction", "http://tempuri.org/" + soap);
+            connection.setRequestProperty("Content-Length", Integer.toString(params.getBytes(Charset.forName("UTF-8")).length));
+            connection.connect();
+            // 设置请求的参数
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            writer.write(params);
+            writer.close();
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                byte[] b = getBytesFromInputStream(connection.getInputStream());
+                String back = new String(b);
+                soapCallback.onResponseResult(back);
+            } else {
+                soapCallback.onFailResult(connection.getResponseCode());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
     }
+
+
 }

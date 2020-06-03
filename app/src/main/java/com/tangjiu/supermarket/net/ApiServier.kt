@@ -16,6 +16,7 @@ package com.tangjiu.supermarket.net
 class ApiServier {
     companion object {
         const val UrlConnectTest = "ConnectTest"
+        const val UrlGetStoreOrders = "GetStoreOrders"
         const val UrlUserVerify = "UserVerify"
     }
 }
