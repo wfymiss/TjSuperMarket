@@ -1,32 +1,27 @@
 package com.tangjiu.supermarket.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.tangjiu.supermarket.MainActivity
 import com.tangjiu.supermarket.R
-import com.tangjiu.supermarket.adapter.OrderListAdapter
 import com.tangjiu.supermarket.adapter.StoreOrderAdapter
+import com.tangjiu.supermarket.model.DeliveryOrderBean
 import com.tangjiu.supermarket.model.OrderBean
-import com.tangjiu.supermarket.model.OrderDetailBean
 import com.tangjiu.supermarket.net.ApiServier
 import com.tangjiu.supermarket.net.SoapCallback
 import com.tangjiu.supermarket.net.Webservice
 import com.tangjiu.supermarket.utils.ActivityToActivity
-import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.activity_store_order.*
-import kotlinx.android.synthetic.main.activity_store_order.orderRv
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class StoreOrderActivity : AppCompatActivity() {
     val handler = Handler(Looper.getMainLooper())
-    var list = mutableListOf<OrderDetailBean>()
+    var list = mutableListOf<DeliveryOrderBean>()
     var adapter: StoreOrderAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +68,6 @@ class StoreOrderActivity : AppCompatActivity() {
                             adapter?.setNewData(orderBean.OrderMain)
                         }
                     }
-
                     override fun onFailResult(code: Int) {
                     }
 
@@ -81,7 +75,6 @@ class StoreOrderActivity : AppCompatActivity() {
                     }
 
                 })
-
         }
 
     }

@@ -26,10 +26,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         btn_login.setOnClickListener {
-            if (!et_password.text.toString().isNullOrEmpty() && !et_username.text.toString()
-                    .isNullOrEmpty()
-            ) {
-                tologin()
+            if (!et_password.text.toString().isNullOrEmpty() && !et_username.text.toString().isNullOrEmpty()) {
+                vervifylogin()
             } else {
                 Toast.makeText(this, "请输入账号密码", Toast.LENGTH_SHORT).show()
             }
@@ -38,15 +36,37 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    /*
-    *  login
-    * */
-    private fun tologin() {
+
+
+    private fun vervifylogin() {
         GlobalScope.launch {
-            Webservice.getInstance(this@LoginActivity)
-                .httpURLGetConnection(ApiServier.UrlConnectTest, object : SoapCallback<String> {
+            Webservice.getInstance(this@LoginActivity).login(
+                UrlUserVerify,
+                et_password.text.toString(),
+                et_username.text.toString(),
+                object : SoapCallback<String> {
                     override fun onResponseResult(mData: String?) {
-                        vervifylogin()
+                        var user = Gson().fromJson(mData, User::class.java)
+                        if (user.UserName.isNotEmpty()) {
+                            UserInfoUtils.saveUser(user)
+                            ActivityToActivity.toActivity(
+                                this@LoginActivity,
+                                MainActivity::class.java
+                            )
+                            finish()
+                        } else {
+
+                            ActivityToActivity.toActivity(
+                                this@LoginActivity,
+                                MainActivity::class.java
+                            )
+
+//                        handler.post {
+//                            Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+                        }
+
                     }
 
                     override fun onFailResult(code: Int) {
@@ -62,51 +82,32 @@ class LoginActivity : AppCompatActivity() {
                 })
 
         }
-
-
     }
-
-    private fun vervifylogin() {
-        Webservice.getInstance(this@LoginActivity).login(
-            UrlUserVerify,
-            et_password.text.toString(),
-            et_username.text.toString(),
-            object : SoapCallback<String> {
-                override fun onResponseResult(mData: String?) {
-                    var user = Gson().fromJson(mData, User::class.java)
-                    if (user.UserName.isNotEmpty()) {
-                        UserInfoUtils.saveUser(user)
-                        ActivityToActivity.toActivity(
-                            this@LoginActivity,
-                            MainActivity::class.java
-                        )
-                        finish()
-                    } else {
-
-                        ActivityToActivity.toActivity(
-                            this@LoginActivity,
-                            MainActivity::class.java
-                        )
-
+    /*
+      *  login
+      * */
+//    private fun tologin() {
+//        GlobalScope.launch {
+//            Webservice.getInstance(this@LoginActivity)
+//                .httpURLGetConnection(ApiServier.UrlConnectTest, object : SoapCallback<String> {
+//                    override fun onResponseResult(mData: String?) {
+//                        vervifylogin()
+//                    }
+//
+//                    override fun onFailResult(code: Int) {
 //                        handler.post {
-//                            Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT)
+//                            Toast.makeText(this@LoginActivity, code.toString(), Toast.LENGTH_SHORT)
 //                                .show()
 //                        }
-                    }
-
-                }
-
-                override fun onFailResult(code: Int) {
-                    handler.post {
-                        Toast.makeText(this@LoginActivity, code.toString(), Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-
-                override fun onFinally() {
-                }
-
-            })
-    }
-
+//                    }
+//
+//                    override fun onFinally() {
+//                    }
+//
+//                })
+//
+//        }
+//
+//
+//    }
 }

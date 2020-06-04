@@ -49,6 +49,7 @@
                 android:text="收货管理" />
 
             <TextView
+                android:id="@+id/settingTv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

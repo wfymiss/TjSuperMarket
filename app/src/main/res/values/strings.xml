@@ -5,4 +5,6 @@
     <string name="action_Confirmed">已确认</string>
     <string name="action_Unconfirmed">未确认</string>
     <string name="action_Received">已收货</string>
+    <string name="action_Unmobile">非移动专线</string>
+    <string name="action_mobile">移动专线</string>
 </resources>

@@ -17,11 +17,12 @@ package com.tangjiu.supermarket.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.tangjiu.supermarket.R
+import com.tangjiu.supermarket.model.DeliveryOrderBean
 import com.tangjiu.supermarket.model.OrderDetailBean
 
-class StoreOrderAdapter(data: List<OrderDetailBean>) :
-    BaseQuickAdapter<OrderDetailBean, BaseViewHolder>(R.layout.store_order_list_item, data) {
-    override fun convert(helper: BaseViewHolder, item: OrderDetailBean) {
+class StoreOrderAdapter(data: List<DeliveryOrderBean>) :
+    BaseQuickAdapter<DeliveryOrderBean, BaseViewHolder>(R.layout.store_order_list_item, data) {
+    override fun convert(helper: BaseViewHolder, item: DeliveryOrderBean) {
         helper.setText(R.id.goodcodeTV, item.DeliveryOrderID.toString())
             .setText(R.id.goodNameTV, item.Warehouse)
             .setText(R.id.goodunitTV, item.DeliveryOrderTime)

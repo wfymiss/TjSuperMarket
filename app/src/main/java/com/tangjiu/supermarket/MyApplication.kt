@@ -1,7 +1,9 @@
 package com.tangjiu.supermarket
 
 import android.app.Application
+import com.tangjiu.supermarket.dao.AppDatabase
 import com.tencent.mmkv.MMKV
+import kotlin.properties.Delegates
 
 /**
  *
@@ -16,9 +18,19 @@ import com.tencent.mmkv.MMKV
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-class application : Application() {
+class MyApplication : Application() {
+
+    companion object {
+
+        private var instance:MyApplication by Delegates.notNull()
+
+        fun instance() = instance!!
+    }
+
+
     override fun onCreate() {
         super.onCreate()
+        instance = this
         MMKV.initialize(this)
     }
 

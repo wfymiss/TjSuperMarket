@@ -14,7 +14,7 @@ package com.tangjiu.supermarket.model
  * @Version: 1.0
  */
 data class OrderBean(
-    val OrderMain: List<OrderDetailBean>,
-    val OrderDetail: List<OrderDetailBean>,
+    val OrderMain: MutableList<DeliveryOrderBean>,
+    val OrderDetail: MutableList<OrderDetailBean>,
     val Result: String
 )
