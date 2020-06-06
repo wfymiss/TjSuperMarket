@@ -57,8 +57,7 @@ public class Webservice {
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 byte[] b = getBytesFromInputStream(connection.getInputStream());
                 String back = new String(b);
-                JSONObject jsonObject = new JSONObject(back);
-                soapCallback.onResponseResult(jsonObject.getString("Result"));
+                soapCallback.onResponseResult(back);
             } else {
                 soapCallback.onFailResult(connection.getResponseCode());
             }
@@ -122,6 +121,39 @@ public class Webservice {
     public void GetStoreOrders(String soap, String storeno, SoapCallback<String> soapCallback) {
         HttpURLConnection connection = null;
         String params = "storeno=" + storeno;
+        try {
+            URL url = new URL("http://218.26.102.234:48612/WebService1.asmx/" + soap);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("SOAPAction", "http://tempuri.org/" + soap);
+            connection.setRequestProperty("Content-Length", Integer.toString(params.getBytes(Charset.forName("UTF-8")).length));
+            connection.connect();
+            // 设置请求的参数
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            writer.write(params);
+            writer.close();
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                byte[] b = getBytesFromInputStream(connection.getInputStream());
+                String back = new String(b);
+                soapCallback.onResponseResult(back);
+            } else {
+                soapCallback.onFailResult(connection.getResponseCode());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
+
+    //7、	订货到店
+    public void OrderConfirm(String soap, int id, SoapCallback<String> soapCallback) {
+        HttpURLConnection connection = null;
+        String params = "DeliveryOrderID=" + id;
         try {
             URL url = new URL("http://218.26.102.234:48612/WebService1.asmx/" + soap);
             connection = (HttpURLConnection) url.openConnection();

@@ -41,8 +41,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:text="非移动专线"
                     android:layout_weight="1"
-                    android:background="@drawable/shape_black_conner"
+                    android:background="@drawable/shape_black_left_conner"
                     android:gravity="left|center_vertical"
                      />
             </LinearLayout>
@@ -66,9 +67,9 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/shape_black_conner"
+                    android:background="@drawable/shape_black_left_conner"
                     android:gravity="left|center_vertical"
-                    android:text="11111" />
+                    android:text="wwww.baidu.com" />
             </LinearLayout>
 
             <RelativeLayout
@@ -86,6 +87,7 @@
                     android:text="登录系统时自动下载商品资料" />
 
                 <Button
+                    android:id="@+id/btn_netTest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -111,8 +113,8 @@
                 </TextView>
 
                 <EditText
-                    android:layout_width="70dp"
-                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/shape_black_conner"

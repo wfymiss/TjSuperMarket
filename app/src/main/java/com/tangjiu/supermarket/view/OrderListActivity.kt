@@ -60,18 +60,10 @@ class OrderListActivity : AppCompatActivity() {
                             orderDao.insertAll(orderBean.OrderDetail)
                         }
                     }
-
                     override fun onFailResult(code: Int) {
                     }
-
-                    override fun onFinally() {
-                    }
-
                 })
-
         }
 
     }
-
-
 }

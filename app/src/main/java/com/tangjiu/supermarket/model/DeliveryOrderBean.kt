@@ -18,7 +18,7 @@ data class DeliveryOrderBean (
     val Total: Double,
     val Warehouse: String,
     val Remark: String,
-    val State: Int,
+    var State: Int,
     val FinishTime: String,
     val Operator: String
 )

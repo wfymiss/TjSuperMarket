@@ -6,12 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/tv_userinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="1111" />
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorblack" />
     <include layout="@layout/list_header_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderRv"
         android:layout_width="match_parent"
-        android:background="@drawable/shape_black_right_conner"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_black_right_conner" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_colse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="关闭" />
+
+        <Button
+            android:id="@+id/btn_finsh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btn_colse"
+            android:text="收货完成" />
+
+    </RelativeLayout>
+
 </LinearLayout>

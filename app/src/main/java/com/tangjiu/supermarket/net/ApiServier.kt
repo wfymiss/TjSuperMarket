@@ -18,5 +18,7 @@ class ApiServier {
         const val UrlConnectTest = "ConnectTest"
         const val UrlGetStoreOrders = "GetStoreOrders"
         const val UrlUserVerify = "UserVerify"
+        const val UrlGetGoods1 = "GetGoods1"
+        const val UrlOrderConfirm = "OrderConfirm"
     }
 }

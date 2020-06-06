@@ -5,13 +5,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.tangjiu.supermarket.MyApplication
+import com.tangjiu.supermarket.model.DeliveryOrderBean
+import com.tangjiu.supermarket.model.GoodsBean
 import com.tangjiu.supermarket.model.OrderDetailBean
 
 
-@Database(entities = arrayOf(OrderDetailBean::class), version = 2)
+@Database(
+    entities = arrayOf(OrderDetailBean::class, GoodsBean::class, DeliveryOrderBean::class),
+    version = 1
+)
 abstract class AppDatabase : RoomDatabase() {
-
+    //订单商品明细表
     abstract fun orderDao(): OrderDao
+
+
+    //商品资料
+    abstract fun GoodsDao(): GoodsDao
+
+
+    //【订单主表】
+    abstract fun OrderMainDao(): OrderMainDao
 
     companion object {
         @Volatile

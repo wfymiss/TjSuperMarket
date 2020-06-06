@@ -23,25 +23,62 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SettingActivity : AppCompatActivity() {
+    val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
-
         netWorkTv.setOnClickListener {
-            val popupMenu: PopupMenu = PopupMenu(this, statuTv)
+            val popupMenu: PopupMenu = PopupMenu(this, netWorkTv)
             popupMenu.menuInflater.inflate(R.menu.net_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_Unmobile ->
-                        statuTv.text=item.title
+                        netWorkTv.text = item.title
                     R.id.action_mobile ->
-                        statuTv.text=item.title
+                        netWorkTv.text = item.title
                 }
                 true
             })
             popupMenu.show()
 
         }
+
+        btn_netTest.setOnClickListener {
+            ConnectTest()
+        }
+
+    }
+
+
+    /*
+     *  ConnectTest
+     *
+     */
+    private fun ConnectTest() {
+        GlobalScope.launch {
+            Webservice.getInstance(this@SettingActivity)
+                .httpURLGetConnection(ApiServier.UrlConnectTest, object : SoapCallback<String> {
+                    override fun onResponseResult(mData: String?) {
+                        handler.post {
+                            Toast.makeText(this@SettingActivity, "连接成功", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                    override fun onFailResult(code: Int) {
+                        handler.post {
+                            Toast.makeText(
+                                this@SettingActivity,
+                                code.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                    }
+                })
+
+        }
+
     }
 }

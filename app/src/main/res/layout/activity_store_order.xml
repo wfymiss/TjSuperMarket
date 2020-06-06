@@ -177,9 +177,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/btn_start"
-            android:text="订货时间" />
+            android:text="配货签收" />
 
         <Button
+            android:id="@+id/btn_orderdetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/btn_order"

@@ -15,5 +15,5 @@ package com.tangjiu.supermarket.net;
  public interface SoapCallback<T> {
     void onResponseResult(T mData);
     void onFailResult(int code);
-    void onFinally();
+//    void onFinally();
 }
